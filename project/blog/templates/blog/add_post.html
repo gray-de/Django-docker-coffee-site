@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+
+{% block content %}
+   <div class="add-post-box">
+      <h1>Добавление новости</h1>
+
+      <form action="{% url 'add-post' %}" method="post">
+         {% csrf_token %}
+         <p>
+            <label for="id_title">Название: </label>
+            <input type="text" name="title" required="" id="id_title">
+         </p>
+         <p>
+            <label for="id_slug">Url:</label>
+            <input type="text" name="slug" required="" id="id_slug">
+         </p>
+         <p>
+            <label for="id_author">Автор:</label>
+            <input type="text" name="author" maxlength="100" required="" id="id_author" value="{{ author }}" readonly>
+         </p>
+         <p>
+            <label for="id_content">Контент:</label>
+            <textarea name="content" cols="40" rows="10" id="id_content"></textarea>
+         </p>
+         <p>
+            <label for="id_category">Категория:</label>
+            <select name="category" required="" id="id_category">
+              <option value="1">{{ categories.name }}</option>
+
+            </select>
+         </p>
+         <button type="submit" class="btn btn-primary">Добавить новость</button>
+      </form>
+   </div>
+{% endblock %}
+

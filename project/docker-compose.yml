@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  dp_db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_PASSWORD=13542
+
+  dp_web:
+    tty: true
+    build: .
+    command: bash -c "
+      python /usr/src/djangoproject/manage.py migrate
+      && python /usr/src/djangoproject/manage.py runserver 0.0.0.0:8000
+      "
+    volumes:
+      - .:/usr/src/djangoproject
+    ports:
+      - 8000:8000
+    depends_on:
+      - dp_db
+    env_file:
+      - ./.env.dev
+volumes:
+  postgres_data:
+

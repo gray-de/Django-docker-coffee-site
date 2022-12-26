@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<div id="content">
+    <div class="post">
+        <div>{{ post.title }}</div>
+        <p class="byline">Выложено: {{ post.created_at }} Автор:  <a href="#">{{ post.author }}</a> | <a href="{{ post.category.get_absolute_url }}">{{ post.category }}</a> | <a href="#">Edit</a></p>
+        <div class="entry">
+            <p>{{ post.content}}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

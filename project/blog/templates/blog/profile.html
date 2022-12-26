@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="box1">
+    <h1 class="new-title">Данные аккаунта</h1>
+    <ul>
+        <li class="profile-name">Ник: {{ user.username }}</li>
+        <li class="profile-name">Почта: {{ user.email }}</li>
+        <li class="profile-name">Дата создания аккаунта: {{ user.date_joined }}</li>
+    </ul>
+
+    <h1 class="new-title">Ваши Записи</h1>
+    <div class="block">
+        <div id="content">
+        {% for post in posts %}
+            <div class="post">
+                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                <p class="byline"><small>Выложено: {{ post.created_at }} Автор:  <a href="#">{{ post.author }}</a> | <a href="{{ post.category.get_absolute_url }}">{{ post.category }}</a> | <a href="#">Edit</a></small></p>
+                <div class="entry">
+                    <p>{{ post.content|truncatewords_html:50|safe}}</p>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+<style>
+    .box {
+        display: flex;
+        flex-direction: row;
+    }
+    #content {
+        margin-top: 0px !important;
+    }
+    .new-title {
+        color: #FFB71C !important;
+    }
+    .profile-name {
+        color: #CFBF66;
+    }
+</style>
+{% endblock %}

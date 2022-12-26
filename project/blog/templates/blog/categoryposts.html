@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content-box">
+
+    <h1>{{ category_post.category }}</h1>
+    {% for post in posts %}
+    <div id="content">
+        <div class="post">
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            <p class="byline">Выложено: {{ post.created_at }} Автор:  <a href="#">{{ post.author }}</a> | <a href="#">Edit</a></p>
+            <div class="entry">
+                <p>{{ post.content|truncatewords_html:50|safe}}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}

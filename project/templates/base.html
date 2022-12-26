@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Brewed Coffee by Free CSS Templates</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="{% static 'style.css' %}" rel="stylesheet" type="text/css" media="screen" />
+</head>
+<body>
+<!-- start header -->
+{% if user.is_authenticated %}
+<div class="header-buttons">
+	<a class="add-post-link" href="{% url 'add-post' %}">Добавить Запись</a>
+	<div class="box">
+		<a class="user-profile-link" href="{% url 'profile' user.username %}">{{ user.username }}</a> |
+		<a class="user-profile-link" href="{% url 'logout' %}">Выход</a>
+	</div>
+</div>
+{% else %}
+<div class="header-buttons">
+	<div></div>
+	<div class="box">
+		<div class="login"><a class="a-login" href="{% url 'login' %}">Вход </a></div> |
+		<div class="register"><a class="a-register" href="{% url 'register' %}"> Регистрация</a></div>
+	</div>
+</div>
+{% endif%}
+
+<div id="header">
+	<h1><a href="{% url 'home' %}">brewed coffee</a></h1>
+</div>
+<div id="page">
+	<div id="sidebar">
+		<ul>
+			<li>
+				<h2>Категории</h2>
+				{% block sidebar %}
+				{% endblock %}
+			</li>
+		</ul>
+	</div>
+
+{% block content %}{% endblock %}
+
+</div>
+<!-- end page -->
+<div id="footer">
+	<p>&copy;2007 All Rights Reserved &nbsp;&bull;&nbsp; Design by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a> &nbsp;&bull;&nbsp; Icons by <a href="http://www.famfamfam.com/">FAMFAMFAM</a>.</p>
+</div>
+
+</body>
+</html>

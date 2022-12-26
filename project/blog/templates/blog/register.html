@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="register-box">
+        <h1>Регистрация</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+        <div class="register-footer-btns">
+            <button type="submit" class="btn">Регистрация</button>
+            <a href="{% url 'login' %}">Вход</a>
+        </div>
+        </form>
+    </div>
+<style>
+    .btn {
+        width: 100px;
+    }
+</style>
+{% endblock %}

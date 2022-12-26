@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="block">
+
+    <div id="content">
+    {% for post in page_obj %}
+        <div class="post">
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            <p class="byline">Выложено: {{ post.created_at }}{% if post.author == request.user.username %} Автор:  <a href="{% url 'profile' post.author %}">{{ post.author }}</a>{% else %} Автор:  <a href="">{{ post.author }}</a>{% endif %} | <a href="{{ post.category.get_absolute_url }}">{{ post.category }}</a>{% if post.author == request.user.username %} | <a href="http://127.0.0.1:8000/admin/blog/post/{{post.id}}/change/">Edit</a>{% endif %}</p>
+            <div class="entry">
+                <p>{{ post.content|truncatewords_html:50|safe}}</p>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    <div class="pegination">
+        {% if page_obj.has_other_pages %}
+            <div class="nav-links">
+
+                {% if page_obj.has_previous %}
+                    <a class="page-numbers" href="?page={{ page_obj.previous_page_number }}"><</a>
+                {% endif %}
+
+                {% for p in page_obj.paginator.page_range %}
+                    {% if page_obj.number == p %}
+                        <span class="page-numbers current">{{ p }}</span>
+                    {% elif p > page_obj.number|add:-3 and  p < page_obj.number|add:3 %}
+                        <a class="page-numbers" href="?page={{ p }}">{{ p }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a class="page-numbers" href="?page={{ page_obj.next_page_number }}">></a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+

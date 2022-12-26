@@ -1,0 +1,47 @@
+version: '3.7'
+
+services:
+  dp_web:
+    build:
+      dockerfile: Dockerfile.prod
+#    command: gunicorn project.wsgi.application --bind 0.0.0.0:8000
+#      && bash -c "
+#      python /usr/src/djangoproject/manage.py migrate
+#      && python /usr/src/djangoproject/manage.py runserver 0.0.0.0:8000
+#      "
+    command: gunicorn project.wsgi:application --bind 0.0.0.0:8000
+#    bash -c "
+#      python /usr/src/djangoproject/manage.py migrate
+#      && python /usr/src/djangoproject/manage.py runserver 0.0.0.0:8000
+#      && gunicorn project.wsgi.application --bind 0.0.0.0:8000
+#      "
+    expose:
+      - 8000
+    volumes:
+      - static_volume:/home/app/dp_web/static/
+      - static_volume:/home/app/dp_web/media/
+    depends_on:
+      - dp_db
+    env_file:
+      - ./.env.prod
+
+  dp_db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.prod.db
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    volumes:
+      - static_volume:/home/app/dp_web/static/
+      - media_volume:/home/app/dp_web/media/
+    depends_on:
+      - dp_web
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+# ./data/db
